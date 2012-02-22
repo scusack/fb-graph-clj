@@ -1,5 +1,4 @@
 (ns fb-graph-clj.core
-  (:refer-clojure :exclude [get])
   (:use clojure.core
         [clojure.pprint :only [pprint]])
   (:require [clojure.string  :as s]
