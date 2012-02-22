@@ -4,7 +4,11 @@
   (:require [fb-graph-clj.core :as fb])
   (:import [java.net URL]))
 
-(def +access-token+ "Get one from: http://developers.facebook.com/docs/reference/api/")
+(defn get-access-token
+  "Set the property in the repl using:
+   (System/setProperty `fb-graph-clj.access-token` `get-one from http://developers.facebook.com/docs/reference/api/`)"
+  []
+  (System/getProperty "fb-graph-clj.access-token"))
 
 (deftest test-make-req
   (are [url method options req] (= (fb/make-req url method options)
@@ -36,7 +40,7 @@
 (deftest test-data-seq
   ;; You need to have at least 3 friends for this test to work.
 
-  (fb/with-access-token +access-token+
+  (fb/with-access-token (get-access-token)
     ;; start by getting our first friend
     (let [r1 (fb/get [:me :friends] {:query-params {:limit 1}})
           {:keys [data paging] :as response} (:body r1)]
@@ -60,5 +64,5 @@
 
 (defn do-get
   [url]
-  (fb/with-access-token +access-token+
+  (fb/with-access-token (get-access-token)
     (fb/get url)))
