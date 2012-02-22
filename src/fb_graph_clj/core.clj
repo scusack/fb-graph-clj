@@ -81,7 +81,7 @@
 
   Takes care not to include query-params or an access-token unless
   actually required.  Reason for this is that during the standard
-  clj-http processing query-params overwrite any query string
+  clj-http processing query-params overwrites any query string
   provided as part of the URL."
 
   [url method {:keys [query-params] :as options}]
