@@ -10,7 +10,7 @@ access the facebook graph api.
 
 (def ac "...see below...")
 (fb/with-access-token ac
-  (fb/get [:me :friends]))
+  (fb/pull [:me :friends]))
 => {:status 200,
     :headers
     {"content-type" "text/javascript; charset=UTF-8"
@@ -31,7 +31,7 @@ convenient to be able to treat the response as sequable.
 Here's how you do it:
 
 ```clojure
-(let [response (fb/get [:me :friends] {:query-params {:limit 10}})]
+(let [response (fb/pull [:me :friends] {:limit 10})]
   (doseq [{:keys [name id] :as friend} (fb/data-seq response)]
     (println "Hello" name "with ID:" id)))
 ```
@@ -57,7 +57,7 @@ use the `with-access-token` macro and your ready to go.
 You can also pass the access token as option if you wish, like this:
 
 ```
-(fb/get [:me :friends] :access_token "...")
+(fb/pull [:me :friends] {:access_token "..."})
 => [a response containing a list of your friends]
 ```
 
