@@ -20,8 +20,8 @@
   "Binds *access-token* to nil.
 
    Handy for when using a URL returned from the Graph API and you want
-   to make sure that the thread bound *access-token* doesn't get cause
-   the query-string to get overwritten."
+   to make sure that the thread bound *access-token* doesn't cause
+   the get query-string to get overwritten."
 
   [& body]
   `(binding [*access-token* nil]
