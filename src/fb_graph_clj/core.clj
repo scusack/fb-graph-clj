@@ -102,6 +102,10 @@
   [url form-params]
   (request (make-req url :post {:form-params form-params})))
 
+(defn trash
+  [url]
+  (request (make-req url :delete nil)))
+
 (defn data-seq
   [response]
   (lazy-cat (body-data response)
