@@ -10,6 +10,14 @@
   []
   (System/getProperty "fb-graph-clj.access-token"))
 
+(deftest test-compute-url
+  (let [fb-user-id (long (rand 100000000000000))]
+    (is (= (fb/compute-url [:me])
+           "https://graph.facebook.com/me"))
+
+    (is (= (fb/compute-url [fb-user-id])
+           (str "https://graph.facebook.com/" fb-user-id)))))
+
 (deftest test-make-req
   (are [url method options req] (= (fb/make-req url method options)
                                    req)

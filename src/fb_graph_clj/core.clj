@@ -36,7 +36,9 @@
      (cond
       (vector? url) (str base-url
                          (->> url
-                              (map name)
+                              (map #(if (instance? clojure.lang.Named %)
+                                      (name %)
+                                      (str %)))
                               (map #(URLEncoder/encode %))
                               (s/join "/")))
       (string? url) url)))
