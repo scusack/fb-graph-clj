@@ -93,25 +93,19 @@
                                  (when *access-token*
                                    {:access_token *access-token*}))})))
 
-(defn get
+(defn pull
   ([url]
-     (get url nil))
-  ([url options]
-     (request (make-req url :get options))))
+     (request (make-req url :get nil)))
+  ([url query-params]
+     (request (make-req url :get {:query-params query-params}))))
+
+(defn push
+  [url form-params]
+  (request (make-req url :post {:form-params form-params})))
 
 (defn data-seq
   [response]
   (lazy-cat (body-data response)
             (when-let [url (get-in response [:body :paging :next])]
               (without-access-token
-               (data-seq (get url))))))
-
-#_
-(defn test-next
-  []
-  (let [query {:access_token "AAAAAAITEghMBANkGpEJZBZCJiGPmUK8RogXG5i4v9nLVgRPYz7OR57t65ZCZAeZCsoghYFUBzvRZAVNngOExJnC907xThSRBW2rSpzk2rFUvSZAoO8SHAum"
-               :limit 5000
-               :offset 5000
-               :__after_id 100001007761014}]
-    (get "https://graph.facebook.com:443/me/friends"
-         {:query-params query})))
+               (data-seq (pull url))))))

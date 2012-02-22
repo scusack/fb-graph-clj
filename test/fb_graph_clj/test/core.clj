@@ -50,7 +50,7 @@
 
   (fb/with-access-token (get-access-token)
     ;; start by getting our first friend
-    (let [r1 (fb/get [:me :friends] {:query-params {:limit 1}})
+    (let [r1 (fb/pull [:me :friends] {:limit 1})
           {:keys [data paging] :as response} (:body r1)]
       (is (= (count data) 1))
 
@@ -60,7 +60,7 @@
       ;; then explicitly get the 'next' url, which having carried over
       ;; the previous limit should have only one friend in it
       (let [r2 (fb/without-access-token
-                (fb/get (:next paging)))
+                (fb/pull (:next paging)))
             {:keys [data paging] :as response} (:body r2)]
         (is (= (count data) 1)))
 
@@ -69,8 +69,3 @@
       (is (= 2 (count (take 2 (fb/data-seq r1)))))
 
       (is (= 3 (count (take 3 (fb/data-seq r1))))))))
-
-(defn do-get
-  [url]
-  (fb/with-access-token (get-access-token)
-    (fb/get url)))
