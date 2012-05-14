@@ -6,9 +6,13 @@
 
 (defn get-access-token
   "Set the property in the repl using:
-   (System/setProperty `fb-graph-clj.access-token` `get-one from http://developers.facebook.com/docs/reference/api/`)"
+   (System/setProperty `fb-graph-clj.access-token` `get-one from http://developers.facebook.com/docs/reference/api/`)
+
+   or set ACCESS_TOKEN in your environment, ie export ACCESS_TOKEN=...."
   []
-  (System/getProperty "fb-graph-clj.access-token"))
+  (let [env (into {} (System/getenv))]
+    (or (env "ACCESS_TOKEN")
+        (System/getProperty "fb-graph-clj.access-token"))))
 
 (deftest test-compute-url
   (let [fb-user-id (long (rand 100000000000000))]
