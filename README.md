@@ -1,3 +1,5 @@
+# This project is archived
+
 # `fb-graph-clj`
 
 A clojure library that provides a simple layer around clj-http to
